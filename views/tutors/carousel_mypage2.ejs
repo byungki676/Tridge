@@ -1,0 +1,388 @@
+<!-- Tutor로 로그인했을 때, mypage -->
+<!doctype html>
+<!-- posts/new처럼 db전송까지 form 만들기 -->
+
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <meta name="description" content="">
+   <meta name="author" content="">
+
+   <!--<link rel="icon" href="imgs/favicon.ico">-->
+
+   <title>Tridge</title>
+   <!-- Bootstrap core CSS -->
+   <link href="/css/bootstrap.min.css" rel="stylesheet">
+   <!-- Custom styles for this template -->
+   <link href="/css/carousel.css" rel="stylesheet">
+   <!-- Custom styles for this template -->
+   <link href="/css/carousel_mypage2.css" rel="stylesheet">
+   <!-- Font Awesome 사용 -->
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+   <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+</head>
+
+<body style="background-color: #e3e4e5bb">
+   <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+         <a class="navbar-brand" href="/" style="font-family: 'Anton', sans-serif; font-size: 2.5rem; margin-left: 1.5rem">Tridge</a>
+
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+
+         <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto" style="font-family: 'Fjalla One', sans-serif; font-size: 1.2rem;">
+               <li class="nav-item active">
+                  <a href="/" class="nav-link">Home <span class="sr-only">(current)</span></a>
+               </li>
+               <!--
+               <li class="nav-item">
+                  <a href="#m2" class="nav-link">튜터링</a>
+               </li>
+               -->
+               <li class="nav-item">
+                                                      <!-- currentUser는 session에 저장됨 -->
+                  <a href="/tutors/new" class="nav-link"><%= currentUser.username %>님 mypage</a>
+               </li>
+            </ul>
+
+            <!-- 스터디 조회 -->
+            <form class="form-inline mt-2 mt-md-0">
+               <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+         </div>
+      </nav>
+   </header>
+
+
+   <!--<main role="main">-->
+   <!-- Marketing messaging and featurettes
+      ================================================== -->
+   <!-- Wrap the rest of the page in another container to center all the content. -->
+
+   <div class="container marketing">
+      <!--<hr class="featurette-divider"> -->
+      <div class="area_profile">
+         <div class="fb-profile">
+            <img align="left" class="fb-image-profile thumbnail" src=<%= findUser.img %>>
+
+            <div class="fb-profile-text">
+               <h1><%= currentUser.username %> 님</h1>
+               <Hr style="margin-left: 220px; margin-bottom: 50px;">
+            </div>
+
+            <div id="a1" style="display: block;">
+               <!-- Tab links -->
+               <div class="tab" style="width: 75%">
+
+                  <button class="tablinks" onclick="openCity(event, 'Regist')">내 튜터링 등록</button>
+                  <button class="tablinks" onclick="openCity(event, 'Paris')">진행 튜터링 조회</button>
+                  <button class="tablinks" onclick="openCity(event, 'Profile')">내 프로필</button>
+
+               </div>
+               <hr>
+               <!-- Tab content -->
+               <div id="Regist" class="tabcontent">
+                  <!--<center><h3>내 튜터링 등록</h3></center>-->
+                  <center>
+                     <form action="/tutors/create" enctype="multipart/form-data" method="post">
+
+                        <div class="card" style="width: 30rem;">
+                           <!-- added -->
+                           <div class="card-body">
+                              <h5 class="card-title">내 튜터링 등록</h5>
+                              <br>
+                              <!-- image -->
+                              <img id="reg_img" class="card-img-top" src="/images/bg_main.png" alt="Card image cap">
+                              <!-- 변경하기 버튼-->
+                              <br></br>
+                              <div class="form-group">
+                                 <button id="bt1" type="button" class="btn btn-outline-info">
+                                    <!-- 수정 1 -->
+                                    <input type="file" class="form-control-file" name="file" id="reg_file" >
+                                 </button>
+                              </div>
+                              <br>
+                              <hr>
+                              <p class="card-text">
+                                 <label>튜터링 제목을 입력해주세요.(최대20자)</label>
+                                 <!-- value -->
+                                 <input type="text" maxlength="20" class="form-control" name="title" value="<%= tutor.title %>">
+                              </p>
+                              <hr>
+                              <p class="card-text">
+                                 <label>튜터링에 대해 간략하게 소개해주세요.(최대20자)</label>
+                                 <!-- value -->
+                                 <input type="text" maxlength="20" class="form-control" name="info" value="<%= tutor.info %>">
+                              </p>
+                              <hr>
+                              
+                              <p class="card-text">
+                                 <label>해당 분야에 대한 경험을 입력해주세요.</label>
+                                 <!-- value -->
+                                 <textarea class="form-control" name="aboutMentor" rows="5"><%= tutor.aboutMentor %></textarea>
+                              </p>
+                              <hr>
+                              
+                              <p class="card-text">
+                                    <label for="exampleFormControlTextarea1">튜터링에 대한 상세 내용을 입력해주세요.</label>
+                                       <!-- value -->
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="studyDetail" rows="5"><%= tutor.studyDetail %></textarea>
+                                    
+                              </p>
+                              
+                              
+                           </div>
+
+
+                           <ul class="list-group list-group-flush">
+
+                              <li class="list-group-item">튜터링 분야:
+                                    <!-- (2) select 내의 value =로 넘어감. -->
+                                    <select class="custom-select" id="inputGroupSelect04" name="field"
+                                    value="<%=tutor.field%>">
+                                       <option selected>가능한 튜터링 분야를 선택해주세요.</option>
+
+                                       <!--  (1) 여기서 selected 된 value가  -->
+                                       <option value="웹">웹</option>
+                                       <option value="알고리즘">알고리즘</option>
+                                       <option value="데이터분석">데이터분석</option>
+                                       <option value="C언어">C언어</option>
+                                       <option value="안드로이드">안드로이드</option>
+                                       <option value="블록체인">블록체인</option>
+                                       <option value="SQL">SQL</option>
+                                       
+                                    </select>
+                              </li>
+                              <li class="list-group-item"> 가능한 지역:
+                                    <select class="custom-select" id="inputGroupSelect04" name="location"
+                                    value="<%=tutor.location%>">
+                                       <option selected>가능한 지역을 선택해주세요.</option>
+                                       <option value="강남">강남</option>
+                                       <option value="판교">판교</option>
+                                       <option value="노원">노원</option>
+                                    </select>
+                              </li>
+                              <!-- 요일 하나만 선택되게 고쳐야함. -->
+                              <li class="list-group-item">가능한 요일:
+                                 <br>
+                                    <label class="form-check-label">
+                                       <div style="float: left; margin-right: 2rem;"><input type="radio" class="form-check-input" name="date" value="<% tutor.date %>월" checked>월</div>
+                                       <div style="float: left; margin-right: 2rem;"><input type="radio" class="form-check-input" name="date" value="<%= tutor.date %>화">화</div>
+                                       <div style="float: left; margin-right: 2rem;"><input type="radio" class="form-check-input" name="date" value="<%= tutor.date %>수">수</div>
+                                       <div style="float: left; margin-right: 2rem;"><input type="radio" class="form-check-input" name="date" value="<%= tutor.date %>목">목</div>
+                                       <div style="float: left; margin-right: 2rem;"><input type="radio" class="form-check-input" name="date" value="<%= tutor.date %>금">금</div>
+                                       <div style="float: left; margin-right: 2rem;"><input type="radio" class="form-check-input" name="date" value="<%= tutor.date %>토">토</div>
+                                       <div style="float: left;"><input type="radio" class="form-check-input" name="date" value="<%= tutor.date %>일">일</div>
+                                    </label>
+                              </li>
+
+                              <!-- text로 받기 -->
+                              <li class="list-group-item">가능한 시간:
+                                 <input type="time" class="form-control" name="time" value="<%= tutor.time %>">
+                              </li>
+
+                              <!-- text로 받기 -->
+                              <li class="list-group-item">시작 가능한 날짜:
+                                 <input type="date" class="form-control" name="startdate" value="<%= tutor.startdate %>">
+                              </li>
+                           </ul>
+
+                           <div class="card-body">
+                              <!-- added for post -->
+                              
+                              <!-- 밑에 url로 DB에 저장 -->
+                              <button type="submit" class="btn btn-outline-info">등록하기</button>
+                              
+                           </div>
+                        </div>
+                     </form>
+                  </center>
+               </div>
+
+               <div id="Paris" class="tabcontent">
+
+
+
+                  <div class="row">
+                     <% tutors.forEach(function(select_tutor) { %>
+                        <div class="col-md-4">
+                           <div class="card mb-4 shadow-sm">
+                              <img class="card-img-top" style="height: 20rem;" src=<%= select_tutor.img %>>
+                              <div class="card-body">
+                                 <p style="font-weight:bold"><%= select_tutor.title %></p>
+                                 <p class="card-text"><%= select_tutor.info %></p>
+                                 <p style="font-weight: bold">지역: <span style="font-weight: normal"><%= select_tutor.location %></span></p>
+                                 <p style="font-weight: bold">시작날짜: <span style="font-weight: normal"><%= select_tutor.startdate %></span></p>
+                                 <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                       <button id="checkUser" type="button" class="btn btn-sm btn-outline-secondary" onClick="alert('참여자: <%= select_tutor.participateUser%>\n 총 <%= select_tutor.participateUser.length%>명 입니다.')">신청자보기</button>
+                                    </div>
+                                    <small class="text-muted"><%= select_tutor.createdDate %></small>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                  <% }) %>
+                  </div>
+               </div>
+
+            
+            
+               <div id="Profile" class="tabcontent">
+                  <!--<center><h3>내 프로필</h3></center>-->
+                  
+                  <center>
+                     <div class="card" style="width: 30rem;">
+                        <div class="card-body">
+                           <h5 class="card-title">내 프로필 설정</h5>
+                           <!-- circle profile-->
+                           <!--<div class="row">-->
+                           <!--<div class="small-12 medium-2 large-2 columns">-->
+                           <form method="post" action="/tutors/crprofile?_method=put" enctype="multipart/form-data">
+                              <div class="circle">
+                                 <!-- User Profile Image -->
+                                    <img class="profile-pic" src=<%= findUser.img %>>
+                                 <!-- Default Image -->
+                                 <!-- <i class="fa fa-user fa-5x"></i> -->
+                              </div>
+                              <div class="p-image">
+                                 <i class="fa fa-camera upload-button"></i>
+                                 <input class="file-upload" type="file" name="fileProfile" accept="image/*" />
+                              </div>
+                              <p class="card-text">
+                                    <label for="exampleFormControlTextarea1">자신에 대해 간략하게 소개해주세요.</label>
+                                    
+                                    <!-- DB에 어디에 저장되는지 선언이 안되있음 -->
+                                    <textarea class="form-control" name="exampleFormControlTextarea1" id="exampleFormControlTextarea1" rows="3"><%= findUser.selfInfo %></textarea>
+                              </p>
+                              <div class="card-body">
+                                 <button type="submit" class="btn btn-outline-info">등록하기</button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </center>
+               </div>
+            </div>
+
+         </div>
+      </div>
+   </div><!-- /.container -->
+
+   <hr class="featurette-divider">
+   <!-- FOOTER -->
+   <footer class="container">
+      <p class="float-right"><a href="/">Back to Home</a></p>
+      <p>&copy; 201333534 박병기 &nbsp / &nbsp 201432537 강예슬</p>
+   </footer>
+   <!--</main>-->
+
+   <!-- Bootstrap core JavaScript
+    ================================================== -->
+   <!-- Placed at the end of the document so the pages load faster -->
+   <script src="/js/jquery-3.3.1.min.js"></script>
+   <script src="js/vendor/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/vendor/holder.min.js"></script>
+
+
+
+   <!-- added -->
+   <script>
+      $(document).ready(function() {
+         // $(window).resize(function() {
+         //    if ($(window).width() <= 768) {
+         //       $('div ul').removeClass().addClass('nav flex-column');
+         //       if ($('#a1').css('display') == 'block') {
+         //          $('#a1').hide();
+         //          $('#a2').show();
+         //       }
+         //    }
+         //    if ($(window).width() > 768) {
+         //       $('div ul').removeClass().addClass('nav nav-tabs');
+         //       if ($('#a2').css('display') == 'block') {
+         //          $('#a1').show();
+         //          $('#a2').hide();
+         //       }
+         //    }
+         // });
+
+         /* profile upload */
+         var readURL = function(input) {
+            if (input.files && input.files[0]) {
+               var reader = new FileReader();
+
+               reader.onload = function(e) {
+                  $('.profile-pic').attr('src', e.target.result);
+               }
+
+               reader.readAsDataURL(input.files[0]);
+            }
+         }
+
+         $(".file-upload").on('change', function() {
+            readURL(this);
+         });
+
+         $(".upload-button").on('click', function() {
+            $(".file-upload").click();
+         });
+
+         /* reg upload */
+         var readURL2 = function(input) {
+            if (input.files && input.files[0]) {
+               var reader = new FileReader();
+
+               reader.onload = function(e) {
+                  $('#reg_img').attr('src', e.target.result);
+               }
+
+               reader.readAsDataURL(input.files[0]);
+            }
+         }
+
+         $("#reg_file").on('change', function() {
+            readURL2(this);
+         });
+
+         $("#bt1").on('click', function() {
+            $("#reg_file").click();
+         });
+
+      })
+
+      // added for tab
+      function openCity(evt, cityName) {
+         // Declare all variables
+         var i, tabcontent, tablinks;
+
+         // Get all elements with class="tabcontent" and hide them
+         tabcontent = document.getElementsByClassName("tabcontent");
+         for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+         }
+
+         // Get all elements with class="tablinks" and remove the class "active"
+         tablinks = document.getElementsByClassName("tablinks");
+         for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+         }
+
+         // Show the current tab, and add an "active" class to the button that opened the tab
+         document.getElementById(cityName).style.display = "block";
+         evt.currentTarget.className += " active";
+      }
+
+
+   </script>
+
+</body>
+
+</html>
